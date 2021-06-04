@@ -1,6 +1,7 @@
 #![no_std]
-#![allow(ctypes)]
+// #![allow(ctypes)]
 
+#[derive(Copy, Clone)]
 enum Color {
     Black      = 0,
     Blue       = 1,
@@ -20,18 +21,13 @@ enum Color {
     White      = 15,
 }
 
-enum Option<T> {
-    None,
-    Some(T)
-}
-
 struct IntRange {
-    cur: int,
-    max: int
+    cur: i32,
+    max: i32
 }
 
 impl IntRange {
-    fn next(&mut self) -> Option<int> {
+    fn next(&mut self) -> Option<i32> {
         if self.cur < self.max {
             self.cur += 1;
             Some(self.cur - 1)
@@ -41,12 +37,12 @@ impl IntRange {
     }
 }
 
-fn range(lo: int, hi: int) -> IntRange {
+fn range(lo: i32, hi: i32) -> IntRange {
     IntRange { cur: lo, max: hi }
 }
 
 fn clear_screen(background: Color) {
-    for i in range(0, 80 * 25) {
+    for i in 0..(80 * 25) {
         unsafe {
             *((0xb8000 + i * 2) as *mut u16) = (background as u16) << 12;
         }
@@ -54,7 +50,7 @@ fn clear_screen(background: Color) {
 }
 
 #[no_mangle]
-#[no_split_stack]
+// #[no_split_stack]
 pub fn main() {
-    clear_screen(LightRed);
+    clear_screen(Color::LightBlue);
 }
